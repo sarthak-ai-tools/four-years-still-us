@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F7F3ED" />
+  <title>Four Years, Still Us</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ivory: #f7f3ed;
+      --beige: #eae1d5;
+      --espresso: #49382e;
+      --taupe: #89796c;
+      --rose: #c58f91;
+      --sand: #d8cabc;
+      --paper: #fffdf8;
+      --shadow: 0 18px 45px rgba(73, 56, 46, .12);
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+      --hand: "Caveat", cursive;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--espresso);
+      background: var(--ivory);
+      font-family: var(--sans);
+      overflow-x: hidden;
+    }
+
+    body.locked {
+      overflow: hidden;
+    }
+
+    img, video {
+      display: block;
+      max-width: 100%;
+    }
+
+    button, a {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .eyebrow {
+      margin: 0 0 .7rem;
+      color: var(--rose);
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--serif);
+      font-weight: 600;
+      line-height: 1.1;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+    }
+
+    .section-heading {
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      text-align: center;
+    }
+
+    .section-heading p:not(.eyebrow) {
+      color: var(--taupe);
+      line-height: 1.8;
+    }
+
+    .site-shell {
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    /* Invitation */
+
+    .invitation {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 1.25rem;
+      overflow-y: auto;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(197, 143, 145, .14), transparent 26rem),
+        var(--ivory);
+      transition: opacity .9s ease, visibility .9s ease;
+    }
+
+    .invitation.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .invitation-card {
+      width: min(600px, 100%);
+      margin: auto;
+      padding: clamp(2rem, 7vw, 5rem) clamp(1.5rem, 7vw, 5rem);
+      border: 1px solid var(--sand);
+      background: rgba(255, 253, 248, .72);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .invitation-card h1 {
+      margin-bottom: .8rem;
+      font-size: clamp(2.5rem, 7vw, 4.8rem);
+    }
+
+    .invitation-card > p:not(.eyebrow) {
+      color: var(--taupe);
+      line-height: 1.7;
+    }
+
+    .unlock {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      width: min(430px, 100%);
+      height: 66px;
+      margin: 2.5rem auto 0;
+      padding: 6px;
+      border: 1px solid var(--sand);
+      border-radius: 999px;
+      background: var(--beige);
+      touch-action: none;
+      user-select: none;
+    }
+
+    .unlock-label {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--taupe);
+      font-size: .8rem;
+      letter-spacing: .08em;
+      pointer-events: none;
+    }
+
+    .unlock-handle {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      flex: 0 0 54px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--rose);
+      box-shadow: 0 5px 15px rgba(73, 56, 46, .15);
+      font-size: 1.45rem;
+      transition: transform .15s ease;
+    }
+
+    .unlock-handle:focus-visible {
+      outline: 3px solid rgba(197, 143, 145, .45);
+      outline-offset: 3px;
+    }
+
+    .unlock-hand {
+      z-index: 1;
+      display: inline-block;
+      margin-left: auto;
+      padding-right: .4rem;
+      font-size: 1.35rem;
+      transform: scaleX(-1)	
+    }
+
+    /* Envelope */
+
+    .envelope-stage {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      display: grid;
+      place-items: center;
+      background: var(--ivory);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .envelope-stage.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .envelope {
+  position: relative;
+  width: min(430px, 82vw);
+  height: 280px;
+  perspective: 1000px;
+}
+
+.envelope-back,
+.envelope-front,
+.envelope-flap,
+.envelope-letter {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+.envelope-back {
+  bottom: 0;
+  height: 75%;
+  z-index: 1;
+  border-radius: 8px;
+  background: #dfb7ad;
+  box-shadow: var(--shadow);
+}
+
+.envelope-letter {
+  top: 18%;
+  left: 8%;
+  z-index: 2;
+  width: 84%;
+  height: 70%;
+  padding: 1.5rem;
+  background: var(--paper);
+  box-shadow: 0 8px 20px rgba(73, 56, 46, .1);
+  transition:
+    transform 1.35s .7s cubic-bezier(.7, 0, .2, 1),
+    z-index 0s 1.1s;
+}
+
+.envelope-front {
+  bottom: 0;
+  z-index: 3;
+  height: 62%;
+  clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+  border-radius: 0 0 8px 8px;
+  background: #d39d98;
+}
+
+.envelope-flap {
+  top: 8%;
+  z-index: 4;
+  height: 60%;
+  transform-origin: top;
+  clip-path: polygon(0 0, 100% 0, 50% 78%);
+  border-radius: 8px 8px 0 0;
+  background: #e5bbb2;
+  transition:
+    transform 1.4s cubic-bezier(.7, 0, .2, 1),
+    z-index 0s 1.05s;
+}
+
+.envelope.is-open .envelope-flap {
+  z-index: 1;
+  transform: rotateX(180deg);
+}
+
+.envelope.is-open .envelope-letter {
+  z-index: 5;
+  transform: translateY(-125px);
+}
+
+
+    /* Main */
+
+    .main-content {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .main-content.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .hero {
+      padding: 7rem 0 4rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      max-width: 850px;
+      margin: 0 auto 1.25rem;
+      font-size: clamp(3rem, 8vw, 7rem);
+    }
+
+    .hero-copy {
+      max-width: 560px;
+      margin: auto;
+      color: var(--taupe);
+      line-height: 1.8;
+    }
+
+    /* Galleries */
+
+    .gallery-frame {
+      overflow: hidden;
+      border: 1px solid var(--sand);
+      padding: 1.25rem 0;
+      background: rgba(234, 225, 213, .38);
+    }
+
+    .marquee {
+      display: flex;
+      width: max-content;
+      animation: marquee 95s linear infinite;
+    }
+
+    .marquee.reverse {
+      animation-direction: reverse;
+      animation-duration: 110s;
+    }
+
+    .gallery-frame:hover .marquee {
+      animation-play-state: paused;
+    }
+
+    .polaroid {
+      width: 160px;
+      margin: 0 .65rem;
+      padding: .55rem .55rem .9rem;
+      flex: 0 0 auto;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(73, 56, 46, .13);
+      transform: rotate(var(--rotation));
+    }
+
+    .polaroid img {
+      width: 100%;
+      aspect-ratio: 1 / 1.08;
+      object-fit: cover;
+      background: var(--beige);
+    }
+
+    .polaroid figcaption {
+      padding-top: .6rem;
+      color: var(--taupe);
+      font-family: var(--hand);
+      font-size: 1.05rem;
+      text-align: center;
+    }
+
+    .poster {
+      width: 130px;
+      margin: 0 .45rem;
+      flex: 0 0 auto;
+      overflow: hidden;
+      border-radius: 5px;
+      box-shadow: 0 8px 18px rgba(73, 56, 46, .15);
+    }
+
+    .poster img {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      background: var(--beige);
+    }
+
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+
+    /* Timeline */
+
+    .timeline-section,
+    .letter-section,
+    .video-section,
+    .playlist-section {
+      padding: 9rem 0 2rem;
+    }
+
+    .timeline {
+      position: relative;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 1rem 0;
+    }
+
+    .timeline::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1px;
+      content: "";
+      background: var(--sand);
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      min-height: 130px;
+      margin-bottom: 1.2rem;
+      align-items: center;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+      grid-column: 1;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+      grid-column: 2;
+    }
+
+    .timeline-button {
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      display: grid;
+      place-items: center;
+      width: 18px;
+      height: 18px;
+      padding: 0;
+      border: 4px solid var(--ivory);
+      border-radius: 50%;
+      background: var(--sand);
+      transform: translateX(-50%);
+      transition: background .3s ease, transform .3s ease;
+    }
+
+    .timeline-button:hover,
+    .timeline-item.is-selected .timeline-button {
+      background: var(--rose);
+      transform: translateX(-50%) scale(1.35);
+    }
+
+    .timeline-date {
+      margin: 0 0 .45rem;
+      color: var(--rose);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .timeline-content h3 {
+      margin-bottom: .4rem;
+      font-size: 1.35rem;
+    }
+
+    .timeline-content p {
+      margin: 0;
+      color: var(--taupe);
+      line-height: 1.6;
+    }
+
+    .timeline-detail {
+      max-width: 650px;
+      min-height: 100px;
+      margin: 3rem auto 0;
+      padding: 2rem;
+      border: 1px solid var(--sand);
+      background: rgba(255, 253, 248, .55);
+      text-align: center;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+
+    .timeline-detail.is-changing {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .timeline-detail h3 {
+      margin-bottom: .7rem;
+    }
+
+    .timeline-detail p {
+      margin: 0;
+      color: var(--taupe);
+      line-height: 1.8;
+    }
+
+    /* Book */
+
+    .book {
+  position: relative;
+  width: min(820px, 100%);
+  min-height: 700px;
+  margin: 0 auto;
+  perspective: 1800px;
+  filter: drop-shadow(0 18px 28px rgba(73, 56, 46, .13));
+}
+
+.book::after {
+  display: none;
+}
+
+.book-page {
+  display: none;
+  width: 100%;
+  min-height: 700px;
+  padding: clamp(2rem, 7vw, 5.5rem);
+  overflow: hidden;
+  border: 1px solid rgba(216, 202, 188, .9);
+  background:
+    linear-gradient(rgba(255, 253, 248, .94), rgba(255, 253, 248, .94)),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 31px,
+      rgba(197, 143, 145, .12) 32px
+    );
+  box-shadow:
+    inset 0 0 35px rgba(73, 56, 46, .035),
+    0 18px 35px rgba(73, 56, 46, .11);
+  transform-origin: left center;
+}
+
+.book-page.active {
+  display: block;
+  animation: pageTurn .65s cubic-bezier(.2, .8, .25, 1);
+}
+
+.book-page h3 {
+  margin-bottom: 1.7rem;
+  font-family: var(--hand);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 500;
+}
+
+.book-page p {
+  color: #675347;
+  font-family: var(--hand);
+  font-size: clamp(1.45rem, 2.4vw, 2rem);
+  line-height: 1.55;
+}
+
+@keyframes pageTurn {
+  from {
+    opacity: 0;
+    transform: rotateY(-10deg) translateX(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotateY(0) translateX(0);
+  }
+}
+
+    .book-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .book-controls button,
+    .playlist-button {
+      border: 1px solid var(--espresso);
+      border-radius: 999px;
+      padding: .75rem 1.25rem;
+      color: var(--espresso);
+      background: transparent;
+      transition: color .25s ease, background .25s ease;
+    }
+
+    .book-controls button:hover,
+    .playlist-button:hover {
+      color: var(--ivory);
+      background: var(--espresso);
+    }
+
+    .book-controls button:disabled {
+      cursor: not-allowed;
+      opacity: .35;
+    }
+
+    /* Video */
+
+    .video-card {
+      position: relative;
+      width: min(850px, 100%);
+      margin: auto;
+      overflow: hidden;
+      border: 1px solid var(--sand);
+      background: var(--beige);
+      box-shadow: var(--shadow);
+    }
+
+    .video-card video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #c7b8aa;
+    }
+
+    .video-play {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      width: 74px;
+      height: 74px;
+      border: 0;
+      border-radius: 50%;
+      color: white;
+      background: rgba(73, 56, 46, .82);
+      transform: translate(-50%, -50%);
+      transition: transform .25s ease, background .25s ease;
+    }
+
+    .video-card:hover .video-play {
+      background: var(--rose);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .video-play.is-hidden {
+      display: none;
+    }
+
+    /* Playlist */
+
+    .playlist-section {
+      padding-bottom: 8rem;
+      text-align: center;
+    }
+
+    .spotify-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 58px;
+      height: 58px;
+      margin-bottom: 1.3rem;
+      border-radius: 50%;
+      color: white;
+      background: #1ed760;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .playlist-section p {
+      max-width: 500px;
+      margin: 0 auto 1.6rem;
+      color: var(--taupe);
+      line-height: 1.8;
+    }
+
+    .playlist-button {
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    footer {
+      padding: 0 0 3rem;
+    }
+
+    .footer-heading {
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 1.5rem;
+    }
+
+    .footer-note {
+      margin-top: 2rem;
+      color: var(--taupe);
+      font-size: .75rem;
+      text-align: center;
+      letter-spacing: .08em;
+    }
+
+    @media (max-width: 700px) {
+      .hero {
+        padding-top: 5rem;
+      }
+
+      .marquee {
+        animation-duration: 65s;
+      }
+
+      .polaroid {
+        width: 130px;
+      }
+
+      .invitation {
+      place-items: start center;
+    }
+
+      .invitation-card {
+      margin: auto 0;
+    }
+
+      .timeline::before {
+        left: 10px;
+      }
+
+      .timeline-item,
+      .timeline-item:nth-child(odd),
+      .timeline-item:nth-child(even) {
+        display: block;
+        min-height: auto;
+        margin-left: 36px;
+        padding: .5rem 0 1.4rem;
+      }
+
+      .timeline-button {
+        left: -26px;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content {
+        text-align: left;
+      }
+
+      .timeline-content h3 {
+        font-size: 1.2rem;
+      }
+
+      .timeline-detail {
+        padding: 1.4rem;
+      }
+
+      .book {
+  min-height: 560px;
+}
+
+.book-page {
+  min-height: 560px;
+  padding: 2rem 1.5rem;
+}
+
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="locked">
+  <!-- =========================
+       Opening invitation
+       ========================= -->
+  <section class="invitation" id="invitation" aria-label="Anniversary invitation">
+    <div class="invitation-card">
+      <p class="eyebrow">A little celebration of us</p>
+      <h2>Smartiee, ready to experience our 4-years virtually?</h2>
+      <p>Slide your hand gently towards mine to open a small world made from memories, music, and everything in between.</p>
+
+      <div class="unlock" id="unlock" role="group" aria-label="Slide to unlock">
+        <span class="unlock-label">Slide to enter</span>
+        <button class="unlock-handle" id="unlockHandle" aria-label="Slide to enter" tabindex="0">🫳</button>
+        <span class="unlock-hand">🫴</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Envelope transition
+       ========================= -->
+  <section class="envelope-stage" id="envelopeStage" aria-hidden="true">
+    <div class="envelope" id="envelope">
+      <div class="envelope-back"></div>
+      <div class="envelope-letter">
+        <h3>To my favourite person,</h3>
+        <p>Chaar saal ho gaye, kuch special toh bannta hai na 😉</p>
+	<p>Hope you like it ❤️</p>
+      </div>
+      <div class="envelope-flap"></div>
+      <div class="envelope-front"></div>
+    </div>
+  </section>
+
+  <!-- =========================
+       Main experience
+       ========================= -->
+  <main class="main-content" id="mainContent">
+    <section class="hero site-shell">
+      <p class="eyebrow">11 November 2022 — forever ♾️</p>
+      <h1>Four years of Kuki being my Kaju Katlii...</h1>
+      <p class="hero-copy">
+        A little digital scrapbook for the ordinary days, unforgettable days,
+        quiet moments, loud laughter, and every beautiful chapter still to come.
+      </p>
+    </section>
+
+    <!-- Replace image URLs and captions in the arrays near the bottom of this file. -->
+    <section class="site-shell" aria-label="Memory gallery">
+      <div class="gallery-frame">
+        <div class="marquee" id="memoryGallery"></div>
+      </div>
+    </section>
+
+    <!-- =========================
+         Timeline
+         ========================= -->
+    <section class="timeline-section site-shell" id="timeline">
+      <div class="section-heading">
+        <p class="eyebrow">The chapters so far</p>
+        <h2>Little meets, half dates & enormous memories.</h2>
+        <p>Choose a moment below to revisit a piece of our story.</p>
+      </div>
+
+      <div class="timeline" id="timelineList"></div>
+
+      <div class="timeline-detail" id="timelineDetail" aria-live="polite">
+        <h3 id="timelineDetailTitle">Sample 1</h3>
+        <p id="timelineDetailText">Sample 1</p>
+      </div>
+    </section>
+
+    <!-- =========================
+         Interactive letter book
+         ========================= -->
+    <section class="letter-section site-shell" id="letter">
+      <div class="section-heading">
+        <p class="eyebrow">A letter for you</p>
+        <h2>Some things deserve more than a text message.</h2>
+        <p>Turn the pages slowly.</p>
+      </div>
+
+      <div class="book" id="book">
+        <article class="book-page left active">
+          <p class="eyebrow">Page one</p>
+          <h3>My love,</h3>
+          <p>
+            Four years ago, life quietly changed direction. I did not know then
+            how many of my favourite memories would begin with you.
+          </p>
+          <p>
+            Thank you for every laugh, every reassuring look, and every ordinary
+            day you somehow make feel special.
+          </p>
+        </article>
+
+        <article class="book-page right active">
+          <p class="eyebrow">Page two</p>
+          <h3>Still choosing you</h3>
+          <p>
+            I love the way our story is made of grand adventures and tiny rituals:
+            shared songs, familiar places, sleepy conversations, and the comfort
+            of knowing exactly where I belong.
+          </p>
+          <p>
+            If I could revisit every beginning, I would still find my way to you.
+          </p>
+        </article>
+
+        <article class="book-page left">
+          <p class="eyebrow">Page three</p>
+          <h3>And then, always</h3>
+          <p>
+            Here is to all the rooms we have not entered, all the places we have
+            not seen, and all the versions of ourselves we have yet to become.
+          </p>
+          <p>
+            Wherever the next chapter takes us, I hope it feels a little like this:
+            warm, honest, imperfect, and ours.
+          </p>
+        </article>
+      </div>
+
+      <div class="book-controls">
+        <button type="button" id="previousPage">← Previous</button>
+        <button type="button" id="nextPage">Next →</button>
+      </div>
+    </section>
+
+    <!-- =========================
+         Video memory
+         ========================= -->
+    <section class="video-section site-shell" id="video">
+      <div class="section-heading">
+        <p class="eyebrow">A moving memory</p>
+        <h2>Press play when you are ready.</h2>
+      </div>
+
+      <div class="video-card">
+        <video
+          id="memoryVideo"
+          preload="metadata"
+          controls
+          poster="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1400&q=80"
+        >
+          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+          Your browser does not support video playback.
+        </video>
+        <button class="video-play" id="videoPlay" aria-label="Play video">▶</button>
+      </div>
+    </section>
+
+    <!-- =========================
+         Spotify
+         ========================= -->
+    <section class="playlist-section site-shell">
+      <div class="spotify-mark" aria-label="Spotify">♪</div>
+      <p class="eyebrow">Songs that sound like us</p>
+      <h2>Our Little Soundtrack</h2>
+      <p>
+        For the drives, the slow mornings, the kitchen dancing, and every song
+        that somehow became part of our story.
+      </p>
+      <a
+        class="playlist-button"
+        href="https://open.spotify.com/playlist/37i9dQZF1DXcBWIGoYBM5M"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Listen on Spotify ↗</a>
+    </section>
+
+    <!-- =========================
+         Movie gallery footer
+         ========================= -->
+    <footer class="site-shell">
+      <h2 class="footer-heading">Stories We've Watched Together</h2>
+      <div class="gallery-frame">
+        <div class="marquee reverse" id="movieGallery"></div>
+      </div>
+      <p class="footer-note">Made with love, for us.</p>
+    </footer>
+  </main>
+
+  <script>
+    /* ============================================================
+       CUSTOMIZE HERE
+       Replace image URLs, captions, descriptions, video URL, and
+       playlist URL without changing the rest of the application.
+       ============================================================ */
+
+    const memoryImages = [
+      ["https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=700&q=80", "our beginning"],
+      ["https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=700&q=80", "same little world"],
+      ["https://images.unsplash.com/photo-1504150558240-0b4fd8946624?auto=format&fit=crop&w=700&q=80", "golden hours"],
+      ["https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=700&q=80", "always laughing"],
+      ["https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?auto=format&fit=crop&w=700&q=80", "somewhere together"],
+      ["https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=700&q=80", "soft days"],
+      ["https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=700&q=80", "just us"],
+      ["https://images.unsplash.com/photo-1539635278303-d4002c07eae3?auto=format&fit=crop&w=700&q=80", "new adventures"],
+      ["https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=700&q=80", "the view was better with you"],
+      ["https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=700&q=80", "sunset people"],
+      ["https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=700&q=80", "our kind of fun"],
+      ["https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=700&q=80", "favourite face"],
+      ["https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=700&q=80", "long way home"],
+      ["https://images.unsplash.com/photo-1527529482837-4698179dc6d8?auto=format&fit=crop&w=700&q=80", "celebrating us"],
+      ["https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=700&q=80", "little miracles"],
+      ["https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=700&q=80", "the best yes"],
+      ["https://images.unsplash.com/photo-1520857014576-2c4f4c972b57?auto=format&fit=crop&w=700&q=80", "memories in bloom"],
+      ["https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=700&q=80", "close to you"],
+      ["https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&w=700&q=80", "peaceful places"],
+      ["https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=700&q=80", "a beautiful life"],
+      ["https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=700&q=80", "familiar magic"],
+      ["https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=700&q=80", "best company"],
+      ["https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=700&q=80", "our people"],
+      ["https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=700&q=80", "happy hearts"],
+      ["https://images.unsplash.com/photo-1504150558240-0b4fd8946624?auto=format&fit=crop&w=700&q=80", "another golden hour"],
+      ["https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=700&q=80", "quiet happiness"],
+      ["https://images.unsplash.com/photo-1485217988980-11786ced9454?auto=format&fit=crop&w=700&q=80", "wherever we go"],
+      ["https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=700&q=80", "all the little things"],
+      ["https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=700&q=80", "growing together"],
+      ["https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=700&q=80", "another chapter"],
+      ["https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=700&q=80", "home is a feeling"],
+      ["https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=700&q=80", "our table"],
+      ["https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=700&q=80", "sweet celebrations"],
+      ["https://images.unsplash.com/photo-1464349153735-0d2f8a31a3a1?auto=format&fit=crop&w=700&q=80", "four years"],
+      ["https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=700&q=80", "still my favourite"],
+      ["https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=700&q=80", "the way you smile"],
+      ["https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=700&q=80", "beautifully ours"],
+      ["https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=700&q=80", "my person"]
+    ];
+
+    const moviePosters = [
+      "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1574267432644-f610f3c7e7be?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1485095329183-d0797cdc5676?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1518930259200-0f5c5d4fdbd9?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1512149177596-f817c7ef5d4c?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1500634245200-e5245c7574ef?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1574267432644-f610f3c7e7be?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1485095329183-d0797cdc5676?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1518930259200-0f5c5d4fdbd9?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1542206395-9feb3edaa68d?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1512149177596-f817c7ef5d4c?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1500634245200-e5245c7574ef?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1574267432644-f610f3c7e7be?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=500&q=80"
+    ];
+
+    const timelineData = [
+      ["11 Nov 2022", "Sample 1", "The beginning of a story that became our favourite place."],
+      ["17 Sept 2023", "Sample 2", "A day worth keeping close, remembered in all its tiny details."],
+      ["17 April 2024", "Sample 3", "Another page, another reason to be grateful for you."],
+      ["12 May 2024", "Sample 4", "A memory that still feels warm whenever we revisit it."],
+      ["15 Sept 2025", "Sample 5", "A new chapter, made better because we entered it together."],
+      ["16 Sept 2025", "Sample 6", "One of those ordinary days that quietly became extraordinary."],
+      ["18 Sept 2025", "Sample 7", "Proof that the best adventures are often the unexpected ones."],
+      ["14 Oct 2025", "Sample 8", "A small moment with a very permanent place in my heart."],
+      ["24 May 2026", "Sample 9", "Another reminder that life is loveliest when shared with you."],
+      ["28 Aug–16 Sept 2026", "Sample 10", "A whole stretch of memories, stitched together with laughter."],
+      ["19 Sept 2026", "Sample 11", "Still learning, still growing, still choosing each other."],
+      ["3 Oct 2026", "Sample 12", "Four years in, and somehow the best is still ahead."]
+    ];
+
+    /* ============================================================
+       Utility
+       ============================================================ */
+
+    function safeImage(img) {
+      img.addEventListener("error", () => {
+        img.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" width="700" height="900" viewBox="0 0 700 900">
+            <rect width="700" height="900" fill="#eae1d5"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+              fill="#89796c" font-family="Georgia" font-size="28">replace image</text>
+          </svg>
+        `);
+      }, { once: true });
+    }
+
+    function createMemoryGallery() {
+      const gallery = document.getElementById("memoryGallery");
+      const items = [...memoryImages, ...memoryImages];
+
+      items.forEach(([src, caption], index) => {
+        const figure = document.createElement("figure");
+        figure.className = "polaroid";
+        figure.style.setProperty("--rotation", `${((index % 5) - 2) * 1.2}deg`);
+
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = caption;
+        img.loading = index < 8 ? "eager" : "lazy";
+        safeImage(img);
+
+        const figcaption = document.createElement("figcaption");
+        figcaption.textContent = caption;
+
+        figure.append(img, figcaption);
+        gallery.appendChild(figure);
+      });
+    }
+
+    function createMovieGallery() {
+      const gallery = document.getElementById("movieGallery");
+      [...moviePosters, ...moviePosters].forEach((src, index) => {
+        const figure = document.createElement("figure");
+        figure.className = "poster";
+
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = `Movie memory ${index + 1}`;
+        img.loading = "lazy";
+        safeImage(img);
+
+        figure.appendChild(img);
+        gallery.appendChild(figure);
+      });
+    }
+
+    function createTimeline() {
+      const timeline = document.getElementById("timelineList");
+
+      timelineData.forEach((item, index) => {
+        const [date, title, description] = item;
+        const wrapper = document.createElement("div");
+        wrapper.className = `timeline-item${index === 0 ? " is-selected" : ""}`;
+
+        const button = document.createElement("button");
+        button.className = "timeline-button";
+        button.type = "button";
+        button.setAttribute("aria-label", `View ${date}`);
+        button.addEventListener("click", () => selectTimeline(index));
+
+        const content = document.createElement("div");
+        content.className = "timeline-content";
+        content.innerHTML = `
+          <p class="timeline-date">${date}</p>
+          <h3>${title}</h3>
+          <p>${description}</p>
+        `;
+
+        wrapper.append(button, content);
+        timeline.appendChild(wrapper);
+      });
+    }
+
+    function selectTimeline(index) {
+      const items = document.querySelectorAll(".timeline-item");
+      const detail = document.getElementById("timelineDetail");
+      const title = document.getElementById("timelineDetailTitle");
+      const text = document.getElementById("timelineDetailText");
+
+      items.forEach((item, itemIndex) => {
+        item.classList.toggle("is-selected", itemIndex === index);
+      });
+
+      detail.classList.add("is-changing");
+
+      window.setTimeout(() => {
+        title.textContent = timelineData[index][1];
+        text.textContent = timelineData[index][2];
+        detail.classList.remove("is-changing");
+      }, 180);
+    }
+
+    /* ============================================================
+       Unlock interaction: mouse, touch, keyboard
+       ============================================================ */
+
+    function setupUnlock() {
+      const track = document.getElementById("unlock");
+      const handle = document.getElementById("unlockHandle");
+      let dragging = false;
+      let startX = 0;
+      let currentX = 0;
+      let unlocked = false;
+
+      function maxDistance() {
+        return track.clientWidth - handle.offsetWidth - 12;
+      }
+
+      function move(clientX) {
+        if (unlocked) return;
+
+        const distance = Math.max(0, Math.min(maxDistance(), clientX - startX));
+        currentX = distance;
+        handle.style.transform = `translateX(${distance}px)`;
+
+        if (distance >= maxDistance() * .9) {
+          completeUnlock();
+        }
+      }
+
+      function completeUnlock() {
+        if (unlocked) return;
+        unlocked = true;
+        handle.style.transform = `translateX(${maxDistance()}px)`;
+        document.getElementById("invitation").classList.add("is-hidden");
+        document.body.classList.remove("locked");
+
+        const stage = document.getElementById("envelopeStage");
+        const envelope = document.getElementById("envelope");
+        stage.classList.add("is-visible");
+        stage.setAttribute("aria-hidden", "false");
+
+        window.setTimeout(() => envelope.classList.add("is-open"), 450);
+
+        window.setTimeout(() => {
+          stage.classList.remove("is-visible");
+          stage.setAttribute("aria-hidden", "true");
+          document.getElementById("mainContent").classList.add("is-visible");
+        }, 6500);
+      }
+
+      handle.addEventListener("pointerdown", (event) => {
+        if (unlocked) return;
+        dragging = true;
+        startX = event.clientX - currentX;
+        handle.setPointerCapture(event.pointerId);
+      });
+
+      handle.addEventListener("pointermove", (event) => {
+        if (dragging) move(event.clientX);
+      });
+
+      handle.addEventListener("pointerup", () => {
+        dragging = false;
+        if (!unlocked && currentX < maxDistance() * .9) {
+          currentX = 0;
+          handle.style.transform = "translateX(0)";
+        }
+      });
+
+      handle.addEventListener("keydown", (event) => {
+        if (["ArrowRight", "End", "Enter", " "].includes(event.key)) {
+          event.preventDefault();
+          completeUnlock();
+        }
+      });
+
+      track.addEventListener("click", (event) => {
+        if (event.target !== handle && !unlocked) {
+          const rect = track.getBoundingClientRect();
+          if (event.clientX > rect.left + rect.width * .75) completeUnlock();
+        }
+      });
+    }
+
+    /* ============================================================
+       Book controls
+       ============================================================ */
+
+    function setupBook() {
+  const pages = [...document.querySelectorAll(".book-page")];
+  const previous = document.getElementById("previousPage");
+  const next = document.getElementById("nextPage");
+  let currentPage = 0;
+
+  function render() {
+    pages.forEach((page, index) => {
+      page.classList.toggle("active", index === currentPage);
+    });
+
+    previous.disabled = currentPage === 0;
+    next.disabled = currentPage === pages.length - 1;
+  }
+
+  previous.addEventListener("click", () => {
+    if (currentPage > 0) {
+      currentPage -= 1;
+      render();
+    }
+  });
+
+  next.addEventListener("click", () => {
+    if (currentPage < pages.length - 1) {
+      currentPage += 1;
+      render();
+    }
+  });
+
+  render();
+}
+
+    function setupVideo() {
+      const video = document.getElementById("memoryVideo");
+      const play = document.getElementById("videoPlay");
+
+      play.addEventListener("click", () => {
+        video.play().catch(() => {});
+        play.classList.add("is-hidden");
+      });
+
+      video.addEventListener("pause", () => {
+        if (!video.ended) play.classList.remove("is-hidden");
+      });
+
+      video.addEventListener("play", () => {
+        play.classList.add("is-hidden");
+      });
+    }
+
+    createMemoryGallery();
+    createMovieGallery();
+    createTimeline();
+    setupUnlock();
+    setupBook();
+    setupVideo();
+  </script>
+</body>
+</html>
