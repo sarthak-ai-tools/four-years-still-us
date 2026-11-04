@@ -483,6 +483,47 @@
       line-height: 1.6;
     }
 
+/* Smooth timeline text focus */
+.timeline-content {
+  opacity: .78;
+  transform: scale(1);
+  transition:
+    transform .45s cubic-bezier(.2, .8, .2, 1),
+    opacity .45s ease;
+}
+
+.timeline-item:nth-child(odd) .timeline-content {
+  transform-origin: right center;
+}
+
+.timeline-item:nth-child(even) .timeline-content {
+  transform-origin: left center;
+}
+
+/* Enlarge when hovering */
+.timeline-item:hover .timeline-content {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+/* Enlarge the milestone currently in focus */
+.timeline-item.is-selected .timeline-content {
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+/* Mobile adjustment */
+@media (max-width: 700px) {
+  .timeline-item .timeline-content {
+    transform-origin: left center;
+  }
+
+  .timeline-item.is-selected .timeline-content {
+    transform: scale(1.03);
+  }
+}
+	  
+
 
     /* Book */
 
@@ -1014,7 +1055,7 @@ const timelineEmojis = [
       ["14 Oct 2025", "Jagannath Mandir", "A small moment with a very permanent place in my heart."],
       ["24 May 2026", "Windsong Café", "Someone travelling all the way on a weekend just for me? Another reminder that life is loveliest when shared with you. 'Tum se' playing and Kukii as my passenger princess.. absolutely surreal!"],
       ["28 Aug – 16 Sept 2026", "Bombay Diaries", "Dates? chalo half dates.. auto rides, darshans, flowers, walks & what not?! A whole stretch of memories, stitched together with laughter."],
-      ["19 Sept 2026", "I am still there", "Our 1st official flight, those pictures, the comfort, the warmth...etched forever!"],
+      ["19 Sept 2026", "Reliving those moments, everyday!", "Our 1st official flight, those pictures, the comfort, the warmth...etched forever!"],
       ["3 Oct 2026", "Lunch @ HM", "Having you by my side fixes something in me I didn't even know was broken."]
     ];
 
@@ -1102,6 +1143,28 @@ const timelineEmojis = [
       });
     }
 
+function setupTimelineFocus() {
+  const items = document.querySelectorAll(".timeline-item");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        items.forEach((item) => {
+          item.classList.remove("is-selected");
+        });
+
+        entry.target.classList.add("is-selected");
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: "-38% 0px -38% 0px",
+    threshold: 0
+  });
+
+  items.forEach((item) => observer.observe(item));
+}
+	  
     function selectTimeline(index) {
       const items = document.querySelectorAll(".timeline-item");
       
@@ -1258,6 +1321,7 @@ const timelineEmojis = [
     createMemoryGallery();
     createMovieGallery();
     createTimeline();
+	setupTimelineFocus();
     setupUnlock();
     setupBook();
     setupVideo();
