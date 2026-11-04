@@ -11,26 +11,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-	@import url('https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
     :root {
-  /* Luxury colour palette */
-  --ivory: #F5F0E7;
-  --beige: #E8DED0;
-  --espresso: #29251F;
-  --taupe: #8B7460;
-  --rose: #B68B83;
-  --sand: #D8C9B6;
-  --paper: #FFFCF6;
-  --gold: #A58A65;
-
-  /* Soft luxury shadow */
-  --shadow: 0 18px 45px rgba(41, 37, 31, .10);
-
-  /* Typography */
-  --serif: "Playfair Display", Georgia, serif;
-  --sans: "Montserrat", Arial, sans-serif;
-  --hand: "Allura", cursive;
-}
+      --ivory: #f7f3ed;
+      --beige: #eae1d5;
+      --espresso: #49382e;
+      --taupe: #89796c;
+      --rose: #c58f91;
+      --sand: #d8cabc;
+      --paper: #fffdf8;
+      --shadow: 0 18px 45px rgba(73, 56, 46, .12);
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+      --hand: "Caveat", cursive;
+    }
 
     * { box-sizing: border-box; }
 
@@ -260,8 +253,8 @@
   background: var(--paper);
   box-shadow: 0 8px 20px rgba(73, 56, 46, .1);
   transition:
-    transform 1.35s .7s cubic-bezier(.7, 0, .2, 1),
-    z-index 0s 1.1s;
+    transform 1.25s .7s cubic-bezier(.7, 0, .2, 1),
+    z-index 0s 1.0s;
 }
 
 .envelope-front {
@@ -282,7 +275,7 @@
   border-radius: 8px 8px 0 0;
   background: #e5bbb2;
   transition:
-    transform 1.4s cubic-bezier(.7, 0, .2, 1),
+    transform 1.25s cubic-bezier(.7, 0, .2, 1),
     z-index 0s 1.05s;
 }
 
@@ -441,32 +434,27 @@
     }
 
     .timeline-button {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  background: var(--ivory);
-  font-size: 23px;
-  cursor: pointer;
-  transform: translateX(-50%);
-  transition: transform .3s ease, background .3s ease;
-}
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      display: grid;
+      place-items: center;
+      width: 18px;
+      height: 18px;
+      padding: 0;
+      border: 4px solid var(--ivory);
+      border-radius: 50%;
+      background: var(--sand);
+      transform: translateX(-50%);
+      transition: background .3s ease, transform .3s ease;
+    }
 
-.timeline-button::before {
-  content: attr(data-emoji);
-}
+    .timeline-button:hover,
+    .timeline-item.is-selected .timeline-button {
+      background: var(--rose);
+      transform: translateX(-50%) scale(1.35);
+    }
 
-.timeline-button:hover,
-.timeline-item.is-selected .timeline-button {
-  background: var(--beige);
-  transform: translateX(-50%) scale(1.25);
-}
     .timeline-date {
       margin: 0 0 .45rem;
       color: var(--rose);
@@ -991,17 +979,17 @@
     ];
 
     const timelineData = [
-      ["11 Nov 2022", "This needs no introduction", "The beginning of a story that became our comfort space.✈️"],
+      ["11 Nov 2022", "This needs no introduction", "The beginning of a story that became our comfort space."],
       ["17 Sept 2023", "Olterra", "A day worth keeping close, remembered in all its tiny details, from that blue dress to that imperfectly perfect picture to that 'Chaleya' night."],
-      ["17 April 2024", "Gate 106, Kolkata Airport", "Another page, another reason to be grateful for you.🌹"],
+      ["17 April 2024", "Gate 106, Kolkata Airport", "Another page, another reason to be grateful for you."],
       ["12 May 2024", "Westside, Dibrugarh", "Met aunty & bhai for the first time & immediately felt like a family."],
       ["15 Sept 2025", "Bombayyy, here I come..", "Yellow dress, slow night, soft breeze and a lot left unsaid."],
-      ["16 Sept 2025", "Had to keep my promise ofc!", "Twinning in pink and my first drink, sounds perfect with you; lived the moment wholeheartedly!"],
+      ["16 Sept 2025", "Had to keep my promise, ofc!", "Twinning in pink and my first drink, sounds perfect with you; lived the moment wholeheartedly!"],
       ["18 Sept 2025", "Kuki being the sweetest", "the efforts you took to make Didi's day special, I owe you the world full of happiness."],
       ["14 Oct 2025", "Jagannath Mandir", "A small moment with a very permanent place in my heart."],
-      ["24 May 2026", "Windsong Café", "Someone travelling all the way on a weekend just for me? Another reminder that life is loveliest when shared with you. Kukii as my passenger princess & 'Tum se' playing..surreal!"],
+      ["24 May 2026", "Windsong Café", "Someone travelling all the way on a weekend just for me? Another reminder that life is loveliest when shared with you. 'Tum se' playing and Kukii as my passenger princess.. absolutely surreal!"],
       ["28 Aug – 16 Sept 2026", "Bombay Diaries", "Dates? chalo half dates.. auto rides, darshans, flowers, walks & what not?! A whole stretch of memories, stitched together with laughter."],
-      ["19 Sept 2026", "I relive it everyday", "Our 1st official flight, those pictures, the comfort, the warmth...etched forever!"],
+      ["19 Sept 2026", "I am still there", "Our 1st official flight, those pictures, the comfort, the warmth...etched forever!"],
       ["3 Oct 2026", "Lunch @ HM", "Having you by my side fixes something in me I didn't even know was broken."]
     ];
 
@@ -1063,20 +1051,6 @@
 
     function createTimeline() {
       const timeline = document.getElementById("timelineList");
-		const timelineEmojis = [
-  "✈️", // Milestone 1
-  "📸", // Milestone 2
-  "🌹", // Milestone 3
-  "✨", // Milestone 4
-  "💌", // Milestone 5
-  "🥂", // Milestone 6
-  "🤗", // Milestone 7
-  "😇"  // Milestone 8
-  "🎶"  // Milestone 9
-  "🫴"  // Milestone 10
-  "♾️"  // Milestone 11
-  "😉"  // Milestone 12
-];
 
       timelineData.forEach((item, index) => {
         const [date, title, description] = item;
@@ -1086,7 +1060,6 @@
         const button = document.createElement("button");
         button.className = "timeline-button";
         button.type = "button";
-		button.dataset.emoji = timelineEmojis[index] || "❤️";  
         button.setAttribute("aria-label", `View ${date}`);
         button.addEventListener("click", () => selectTimeline(index));
 
