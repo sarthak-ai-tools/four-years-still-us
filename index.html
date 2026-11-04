@@ -441,27 +441,32 @@
     }
 
     .timeline-button {
-      position: absolute;
-      z-index: 2;
-      left: 50%;
-      display: grid;
-      place-items: center;
-      width: 18px;
-      height: 18px;
-      padding: 0;
-      border: 4px solid var(--ivory);
-      border-radius: 50%;
-      background: var(--sand);
-      transform: translateX(-50%);
-      transition: background .3s ease, transform .3s ease;
-    }
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--ivory);
+  font-size: 23px;
+  cursor: pointer;
+  transform: translateX(-50%);
+  transition: transform .3s ease, background .3s ease;
+}
 
-    .timeline-button:hover,
-    .timeline-item.is-selected .timeline-button {
-      background: var(--rose);
-      transform: translateX(-50%) scale(1.35);
-    }
+.timeline-button::before {
+  content: attr(data-emoji);
+}
 
+.timeline-button:hover,
+.timeline-item.is-selected .timeline-button {
+  background: var(--beige);
+  transform: translateX(-50%) scale(1.25);
+}
     .timeline-date {
       margin: 0 0 .45rem;
       color: var(--rose);
@@ -811,7 +816,7 @@
     <section class="timeline-section site-shell" id="timeline">
       <div class="section-heading">
         <p class="eyebrow">The chapters so far</p>
-        <h2>Little meets, half dates & a lifetime of memories.</h2>
+        <h2>Little meets, half dates & a lifetime of memories...</h2>
         <p>Let's revisit the timeline of OUR story.</p>
       </div>
 
@@ -987,16 +992,16 @@
 
     const timelineData = [
       ["11 Nov 2022", "This needs no introduction", "The beginning of a story that became our comfort space.✈️"],
-      ["17 Sept 2023", "Olterra", "A day worth keeping close, remembered in all its tiny details, from that blue dress to that imperfectly perfect picture to that movie night."],
+      ["17 Sept 2023", "Olterra", "A day worth keeping close, remembered in all its tiny details, from that blue dress to that imperfectly perfect picture to that 'Chaleya' night."],
       ["17 April 2024", "Gate 106, Kolkata Airport", "Another page, another reason to be grateful for you.🌹"],
-      ["12 May 2024", "Westside, Dibrugarh", "Meeting aunty & bhai for the first time & immediately felt like a family."],
-      ["15 Sept 2025", "Bombay, here I come", "Yellow dress, slow night, soft breeze and a lot left unsaid."],
-      ["16 Sept 2025", "Kept my promise", "Twinning in pink and my first drink, sounds perfect with you; lived the moment wholeheartedly!"],
+      ["12 May 2024", "Westside, Dibrugarh", "Met aunty & bhai for the first time & immediately felt like a family."],
+      ["15 Sept 2025", "Bombayyy, here I come..", "Yellow dress, slow night, soft breeze and a lot left unsaid."],
+      ["16 Sept 2025", "Had to keep my promise ofc!", "Twinning in pink and my first drink, sounds perfect with you; lived the moment wholeheartedly!"],
       ["18 Sept 2025", "Kuki being the sweetest", "the efforts you took to make Didi's day special, I owe you the world full of happiness."],
       ["14 Oct 2025", "Jagannath Mandir", "A small moment with a very permanent place in my heart."],
-      ["24 May 2026", "Windsong Café", "Someone travelling all the way on a weekend just for me? Another reminder that life is loveliest when shared with you. Kukii playing 'Tum se' made the drive even more surreal."],
+      ["24 May 2026", "Windsong Café", "Someone travelling all the way on a weekend just for me? Another reminder that life is loveliest when shared with you. Kukii as my passenger princess & 'Tum se' playing..surreal!"],
       ["28 Aug – 16 Sept 2026", "Bombay Diaries", "Dates? chalo half dates.. auto rides, darshans, flowers, walks & what not?! A whole stretch of memories, stitched together with laughter."],
-      ["19 Sept 2026", "I am still there", "Our 1st official flight, those pictures, the comfort, the warmth...etched forever!"],
+      ["19 Sept 2026", "I relive it everyday", "Our 1st official flight, those pictures, the comfort, the warmth...etched forever!"],
       ["3 Oct 2026", "Lunch @ HM", "Having you by my side fixes something in me I didn't even know was broken."]
     ];
 
@@ -1058,6 +1063,20 @@
 
     function createTimeline() {
       const timeline = document.getElementById("timelineList");
+		const timelineEmojis = [
+  "✈️", // Milestone 1
+  "📸", // Milestone 2
+  "🌹", // Milestone 3
+  "✨", // Milestone 4
+  "💌", // Milestone 5
+  "🥂", // Milestone 6
+  "🤗", // Milestone 7
+  "😇"  // Milestone 8
+  "🎶"  // Milestone 9
+  "🫴"  // Milestone 10
+  "♾️"  // Milestone 11
+  "😉"  // Milestone 12
+];
 
       timelineData.forEach((item, index) => {
         const [date, title, description] = item;
@@ -1067,6 +1086,7 @@
         const button = document.createElement("button");
         button.className = "timeline-button";
         button.type = "button";
+		button.dataset.emoji = timelineEmojis[index] || "❤️";  
         button.setAttribute("aria-label", `View ${date}`);
         button.addEventListener("click", () => selectTimeline(index));
 
