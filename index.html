@@ -433,27 +433,35 @@
       grid-column: 2;
     }
 
-    .timeline-button {
-      position: absolute;
-      z-index: 2;
-      left: 50%;
-      display: grid;
-      place-items: center;
-      width: 18px;
-      height: 18px;
-      padding: 0;
-      border: 4px solid var(--ivory);
-      border-radius: 50%;
-      background: var(--sand);
-      transform: translateX(-50%);
-      transition: background .3s ease, transform .3s ease;
-    }
+    
+.timeline-button {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateX(-50%);
+  transition: transform .3s ease;
+}
 
-    .timeline-button:hover,
-    .timeline-item.is-selected .timeline-button {
-      background: var(--rose);
-      transform: translateX(-50%) scale(1.35);
-    }
+.timeline-button::before {
+  content: attr(data-emoji);
+}
+
+.timeline-button:hover,
+.timeline-item.is-selected .timeline-button {
+  background: transparent;
+  transform: translateX(-50%) scale(1.3);
+}
 
     .timeline-date {
       margin: 0 0 .45rem;
@@ -978,6 +986,23 @@
       "images/YJHD.jpg",
     ];
 
+	  
+const timelineEmojis = [
+  "✈️", // Our beginning
+  "📸", // Olterra
+  "🌹", // Kolkata Airport
+  "✨", // Westside
+  "💛", // Bombay
+  "🥂", // Promise
+  "🥺", // Kuki being the sweetest
+  "😇", // Jagannath Mandir
+  "🚗", // Windsong Café
+  "🫴", // Bombay Diaries
+  "♾️", // First official flight
+  "🤗"  // Lunch @ HM
+];
+
+
     const timelineData = [
       ["11 Nov 2022", "This needs no introduction", "The beginning of a story that became our comfort space."],
       ["17 Sept 2023", "Olterra", "A day worth keeping close, remembered in all its tiny details, from that blue dress to that imperfectly perfect picture to that 'Chaleya' night."],
@@ -1060,6 +1085,7 @@
         const button = document.createElement("button");
         button.className = "timeline-button";
         button.type = "button";
+		button.dataset.emoji = timelineEmojis[index] || "❤️";
         button.setAttribute("aria-label", `View ${date}`);
         button.addEventListener("click", () => selectTimeline(index));
 
