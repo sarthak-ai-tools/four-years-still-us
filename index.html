@@ -1318,10 +1318,11 @@ function setupTimelineFocus() {
 		const backgroundMusic = document.getElementById("backgroundMusic");
 
 backgroundMusic.volume = 0.35;
+backgroundMusic.currentTime = 0;
+
 backgroundMusic.play().catch(error => {
-  console.log("Background music could not autoplay:", error);
-});
-        stage.setAttribute("aria-hidden", "false");
+  console.log("Music playback error:", error);
+});        stage.setAttribute("aria-hidden", "false");
 
         window.setTimeout(() => envelope.classList.add("is-open"), 450);
 
