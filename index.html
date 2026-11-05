@@ -828,6 +828,9 @@
 </head>
 
 <body class="locked">
+<audio id="backgroundMusic" loop preload="auto">
+  <source src="images/BGM.mp3" type="audio/mpeg">
+</audio>	
   <!-- =========================
        Opening invitation
        ========================= -->
@@ -1312,6 +1315,12 @@ function setupTimelineFocus() {
         const stage = document.getElementById("envelopeStage");
         const envelope = document.getElementById("envelope");
         stage.classList.add("is-visible");
+		const backgroundMusic = document.getElementById("backgroundMusic");
+
+backgroundMusic.volume = 0.35;
+backgroundMusic.play().catch(error => {
+  console.log("Background music could not autoplay:", error);
+});
         stage.setAttribute("aria-hidden", "false");
 
         window.setTimeout(() => envelope.classList.add("is-open"), 450);
@@ -1418,6 +1427,22 @@ function setupTimelineFocus() {
     setupUnlock();
     setupBook();
     setupVideo();
+	const backgroundMusic = document.getElementById("backgroundMusic");
+const memoryVideo = document.getElementById("memoryVideo");
+
+memoryVideo.addEventListener("play", () => {
+  backgroundMusic.pause();
+});
+
+memoryVideo.addEventListener("pause", () => {
+  if (!memoryVideo.ended) {
+    backgroundMusic.play().catch(() => {});
+  }
+});
+
+memoryVideo.addEventListener("ended", () => {
+  backgroundMusic.play().catch(() => {});
+});
   </script>
 </body>
 </html>
