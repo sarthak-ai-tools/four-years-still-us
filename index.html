@@ -855,10 +855,10 @@
     <div class="envelope" id="envelope">
       <div class="envelope-back"></div>
       <div class="envelope-letter">
-        <h3>To my favourite person,</h3>
-        <p>Chaar saal ho gaye, kuch special toh bannta hai na, ekdum Rishi Singh Shekhawat ki style mein 😉</p>
+        <h3>To my Dimple Ahuja,</h3>
+        <p>Chaar saal ho gaye, kuch special toh bannta hai na 😉</p>
 	    <p>Hope this makes you smile 🥺</p>
-		<p>~ aapka Fattu ❤️</p>
+		<p>~ aapka Rishi Singh Shekhawat ❤️</p>
       </div>
       <div class="envelope-flap"></div>
       <div class="envelope-front"></div>
@@ -1288,6 +1288,17 @@ function setupTimelineFocus() {
       let startX = 0;
       let currentX = 0;
       let unlocked = false;
+		const backgroundMusic = document.getElementById("backgroundMusic");
+
+function startBackgroundMusic() {
+  backgroundMusic.volume = 0.35;
+
+  if (backgroundMusic.paused) {
+    backgroundMusic.play().catch(error => {
+      console.log("Music playback error:", error);
+    });
+  }
+}
 
       function maxDistance() {
         return track.clientWidth - handle.offsetWidth - 12;
@@ -1315,14 +1326,8 @@ function setupTimelineFocus() {
         const stage = document.getElementById("envelopeStage");
         const envelope = document.getElementById("envelope");
         stage.classList.add("is-visible");
-		const backgroundMusic = document.getElementById("backgroundMusic");
-
-backgroundMusic.volume = 0.35;
-backgroundMusic.currentTime = 0;
-
-backgroundMusic.play().catch(error => {
-  console.log("Music playback error:", error);
-});        stage.setAttribute("aria-hidden", "false");
+		
+		  stage.setAttribute("aria-hidden", "false");
 
         window.setTimeout(() => envelope.classList.add("is-open"), 450);
 
@@ -1335,6 +1340,7 @@ backgroundMusic.play().catch(error => {
 
       handle.addEventListener("pointerdown", (event) => {
         if (unlocked) return;
+		  startBackgroundMusic();
         dragging = true;
         startX = event.clientX - currentX;
         handle.setPointerCapture(event.pointerId);
