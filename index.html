@@ -824,6 +824,101 @@
         transition-duration: .001ms !important;
       }
     }
+
+/* POEM SECTION */
+
+.poem-section {
+  padding: 90px 20px;
+  text-align: center;
+  background: var(--ivory);
+}
+
+.poem-heading {
+  margin: 0 auto 38px;
+}
+
+.poem-heading span {
+  display: block;
+  color: var(--gold);
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  margin-bottom: 14px;
+}
+
+.poem-heading h2 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 400;
+  color: var(--espresso);
+  margin: 0 0 12px;
+}
+
+.poem-heading p {
+  color: var(--taupe);
+  font-family: var(--sans);
+  font-size: 0.95rem;
+}
+
+.poem-card {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 55px 35px;
+  background: var(--paper);
+  border: 1px solid rgba(168, 139, 94, .3);
+  border-radius: 5px;
+  box-shadow: var(--shadow);
+}
+
+.poem-decoration {
+  color: var(--rose);
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.poem-card h3 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--espresso);
+  margin-bottom: 30px;
+}
+
+.poem-lines {
+  white-space: pre-line;
+  font-family: "Dancing Script", cursive;
+  font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+  line-height: 2;
+  letter-spacing: .3px;
+  word-spacing: 2px;
+  color: #29231F;
+  margin: 0;
+}
+
+.poem-ending {
+  margin-top: 35px;
+  color: var(--rose);
+  font-family: var(--hand);
+  font-size: 1.4rem;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .poem-section {
+    padding: 65px 16px;
+  }
+
+  .poem-card {
+    padding: 40px 20px;
+  }
+
+  .poem-lines {
+    font-size: 1.3rem;
+    line-height: 1.9;
+  }
+}
+	
   </style>
 </head>
 
@@ -1011,6 +1106,35 @@
         <button type="button" id="nextPage">Next →</button>
       </div>
     </section>
+
+<!-- POEM SECTION -->
+<section class="poem-section" id="poem">
+
+  <div class="poem-heading">
+    <span>A LITTLE SOMETHING FROM MY HEART</span>
+    <h2>A Poem, Just for You</h2>
+    <p>Because some feelings deserve to be written in verses.</p>
+  </div>
+
+  <div class="poem-card">
+
+    <div class="poem-decoration">♡</div>
+
+    <h3>YOUR POEM TITLE</h3>
+
+    <p class="poem-lines">
+Your first line goes here...
+Your second line goes here...
+Your third line goes here...
+Your fourth line goes here...
+    </p>
+
+    <div class="poem-ending">With all my love, always. ♡</div>
+
+  </div>
+
+</section>
+
 
     <!-- =========================
          Video memory
