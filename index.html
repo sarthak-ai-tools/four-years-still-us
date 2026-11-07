@@ -1382,6 +1382,7 @@ function startBackgroundMusic() {
   const next = document.getElementById("nextPage");
   const letterSection = document.getElementById("letter");
   let currentPage = 0;
+  let isScrolling = false;		
 
   function render() {
     pages.forEach((page, index) => {
@@ -1400,6 +1401,7 @@ function scrollToLetter(onComplete) {
   const duration = 1000;
   let startTime = null;
 
+  let pageChanged = false;	
   function animateScroll(currentTime) {
     if (startTime === null) startTime = currentTime;
 
@@ -1413,10 +1415,15 @@ function scrollToLetter(onComplete) {
     window.scrollTo(0, startPosition + distance * ease);
 
     if (progress < 1) {
-      requestAnimationFrame(animateScroll);
-    } else if (onComplete) {
-      onComplete();
-    }
+  if (progress > 0 && !pageChanged) {
+    pageChanged = true;
+    onComplete();
+  }
+
+  requestAnimationFrame(animateScroll);
+} else {
+  isScrolling = false;
+}
   }
 
   requestAnimationFrame(animateScroll);
@@ -1432,16 +1439,15 @@ function scrollToLetter(onComplete) {
 });
 		
   next.addEventListener("click", () => {
-  if (currentPage < pages.length - 1) {
+  if (currentPage < pages.length - 1 && !isScrolling) {
+    isScrolling = true;
+
     scrollToLetter(() => {
       currentPage += 1;
       render();
     });
   }
 });
-		
-  render();
-}
 
     function setupVideo() {
       const video = document.getElementById("memoryVideo");
