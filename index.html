@@ -1380,6 +1380,7 @@ function startBackgroundMusic() {
   const pages = [...document.querySelectorAll(".book-page")];
   const previous = document.getElementById("previousPage");
   const next = document.getElementById("nextPage");
+  const letterSection = document.getElementById("letter");
   let currentPage = 0;
 
   function render() {
@@ -1390,11 +1391,18 @@ function startBackgroundMusic() {
     previous.disabled = currentPage === 0;
     next.disabled = currentPage === pages.length - 1;
   }
-
+function scrollToLetter() {
+    letterSection.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+		
   previous.addEventListener("click", () => {
     if (currentPage > 0) {
       currentPage -= 1;
       render();
+	  scrollToLetter();	
     }
   });
 
@@ -1402,6 +1410,7 @@ function startBackgroundMusic() {
     if (currentPage < pages.length - 1) {
       currentPage += 1;
       render();
+	  scrollToLetter();	
     }
   });
 
