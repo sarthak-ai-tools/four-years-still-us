@@ -1391,7 +1391,7 @@ function startBackgroundMusic() {
     previous.disabled = currentPage === 0;
     next.disabled = currentPage === pages.length - 1;
   }
-function scrollToLetter() {
+function scrollToLetter(onComplete) {
   const targetPosition =
     letterSection.getBoundingClientRect().top + window.scrollY - 20;
 
@@ -1414,6 +1414,8 @@ function scrollToLetter() {
 
     if (progress < 1) {
       requestAnimationFrame(animateScroll);
+    } else if (onComplete) {
+      onComplete();
     }
   }
 
@@ -1431,10 +1433,10 @@ function scrollToLetter() {
 		
   next.addEventListener("click", () => {
   if (currentPage < pages.length - 1) {
-    scrollToLetter();
-
-    currentPage += 1;
-    render();
+    scrollToLetter(() => {
+      currentPage += 1;
+      render();
+    });
   }
 });
 		
