@@ -1421,21 +1421,23 @@ function scrollToLetter() {
 }
 		
   previous.addEventListener("click", () => {
-    if (currentPage > 0) {
-      currentPage -= 1;
-      render();
-	  scrollToLetter();	
-    }
-  });
+  if (currentPage > 0) {
+    scrollToLetter();
 
+    currentPage -= 1;
+    render();
+  }
+});
+		
   next.addEventListener("click", () => {
-    if (currentPage < pages.length - 1) {
-      currentPage += 1;
-      render();
-	  scrollToLetter();	
-    }
-  });
+  if (currentPage < pages.length - 1) {
+    scrollToLetter();
 
+    currentPage += 1;
+    render();
+  }
+});
+		
   render();
 }
 
