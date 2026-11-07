@@ -1392,11 +1392,33 @@ function startBackgroundMusic() {
     next.disabled = currentPage === pages.length - 1;
   }
 function scrollToLetter() {
-    letterSection.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+  const targetPosition =
+    letterSection.getBoundingClientRect().top + window.scrollY - 20;
+
+  const startPosition = window.scrollY;
+  const distance = targetPosition - startPosition;
+  const duration = 1000;
+  let startTime = null;
+
+  function animateScroll(currentTime) {
+    if (startTime === null) startTime = currentTime;
+
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    const ease = progress < 0.5
+      ? 4 * progress * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+    window.scrollTo(0, startPosition + distance * ease);
+
+    if (progress < 1) {
+      requestAnimationFrame(animateScroll);
+    }
   }
+
+  requestAnimationFrame(animateScroll);
+}
 		
   previous.addEventListener("click", () => {
     if (currentPage > 0) {
