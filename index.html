@@ -1382,7 +1382,6 @@ function startBackgroundMusic() {
   const next = document.getElementById("nextPage");
   const letterSection = document.getElementById("letter");
   let currentPage = 0;
-  let isScrolling = false;		
 
   function render() {
     pages.forEach((page, index) => {
@@ -1392,62 +1391,31 @@ function startBackgroundMusic() {
     previous.disabled = currentPage === 0;
     next.disabled = currentPage === pages.length - 1;
   }
-function scrollToLetter(onComplete) {
-  const targetPosition =
-    letterSection.getBoundingClientRect().top + window.scrollY - 20;
-
-  const startPosition = window.scrollY;
-  const distance = targetPosition - startPosition;
-  const duration = 1000;
-  let startTime = null;
-
-  let pageChanged = false;	
-  function animateScroll(currentTime) {
-    if (startTime === null) startTime = currentTime;
-
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-
-    const ease = progress < 0.5
-      ? 4 * progress * progress * progress
-      : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-
-    window.scrollTo(0, startPosition + distance * ease);
-
-    if (progress < 1) {
-  if (progress > 0 && !pageChanged) {
-    pageChanged = true;
-    onComplete();
-  }
-
-  requestAnimationFrame(animateScroll);
-} else {
-  isScrolling = false;
-}
-  }
-
-  requestAnimationFrame(animateScroll);
-}
-		
-  previous.addEventListener("click", () => {
-  if (currentPage > 0) {
-    scrollToLetter();
-
-    currentPage -= 1;
-    render();
-  }
-});
-		
-  next.addEventListener("click", () => {
-  if (currentPage < pages.length - 1 && !isScrolling) {
-    isScrolling = true;
-
-    scrollToLetter(() => {
-      currentPage += 1;
-      render();
+function scrollToLetter() {
+    letterSection.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
     });
   }
-});
+		
+  previous.addEventListener("click", () => {
+    if (currentPage > 0) {
+      currentPage -= 1;
+      render();
+	  scrollToLetter();	
+    }
+  });
+
+  next.addEventListener("click", () => {
+    if (currentPage < pages.length - 1) {
+      currentPage += 1;
+      render();
+	  scrollToLetter();	
+    }
+  });
+
+  render();
+}
 
     function setupVideo() {
       const video = document.getElementById("memoryVideo");
