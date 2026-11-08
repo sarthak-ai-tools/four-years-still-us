@@ -1472,6 +1472,60 @@
 .final-surprise.is-visible .final-button {
   transition-delay: 1.9s;
 }
+
+/* GOLDEN FLOATING PARTICLES */
+
+.final-particle {
+  position: absolute;
+  width: var(--particle-size);
+  height: var(--particle-size);
+  left: var(--particle-left);
+  bottom: -15px;
+  border-radius: 50%;
+  background: #E5C58C;
+  opacity: 0;
+  box-shadow:
+    0 0 6px 2px rgba(229, 197, 140, .45),
+    0 0 14px 4px rgba(229, 197, 140, .2);
+  pointer-events: none;
+  z-index: 0;
+  animation: goldenDrift var(--particle-duration) linear var(--particle-delay) infinite;
+}
+
+@keyframes goldenDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(.5);
+    opacity: 0;
+  }
+  15% {
+    opacity: .75;
+  }
+  50% {
+    transform: translate3d(var(--particle-drift), -50vh, 0) scale(1);
+    opacity: .6;
+  }
+  85% {
+    opacity: .4;
+  }
+  100% {
+    transform: translate3d(calc(var(--particle-drift) * -1), -105vh, 0) scale(.3);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .final-particle {
+    box-shadow: 0 0 7px 2px rgba(229, 197, 140, .35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .final-particle {
+    animation: none;
+    display: none;
+  }
+}
+
 		
   </style>
 </head>
@@ -2330,6 +2384,44 @@ if (finalSurprise) {
 
   finalObserver.observe(finalSurprise);
 }
+
+// GOLDEN PARTICLES IN FINAL SCREEN
+
+if (finalSurprise) {
+  for (let i = 0; i < 28; i++) {
+    const particle = document.createElement("span");
+
+    particle.className = "final-particle";
+
+    particle.style.setProperty(
+      "--particle-left",
+      `${Math.random() * 100}%`
+    );
+
+    particle.style.setProperty(
+      "--particle-size",
+      `${2 + Math.random() * 3}px`
+    );
+
+    particle.style.setProperty(
+      "--particle-duration",
+      `${9 + Math.random() * 10}s`
+    );
+
+    particle.style.setProperty(
+      "--particle-delay",
+      `${Math.random() * -18}s`
+    );
+
+    particle.style.setProperty(
+      "--particle-drift",
+      `${Math.random() * 70 - 35}px`
+    );
+
+    finalSurprise.appendChild(particle);
+  }
+}
+	  
   </script>
 </body>
 </html>
