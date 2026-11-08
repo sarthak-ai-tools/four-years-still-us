@@ -408,32 +408,64 @@
 
 .fairy-light {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  top: -17px;
-  right: 12%;
+  width: 9px;
+  height: 9px;
+
+  /* Align with the dip in the string */
+  top: -10px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+
   border-radius: 50%;
   background: #FFE6A1;
+
   box-shadow:
-    0 0 5px 2px rgba(255, 218, 133, .75),
-    0 0 13px 4px rgba(255, 198, 87, .35);
+    0 0 5px 2px rgba(255, 218, 133, .8),
+    0 0 13px 5px rgba(255, 198, 87, .45),
+    0 0 22px 8px rgba(255, 198, 87, .18);
+
   z-index: 4;
-  animation: fairyGlow 2s ease-in-out infinite alternate;
+  animation: fairyGlow 1.8s ease-in-out infinite alternate;
 }
 
+/* Tiny sparkling rays */
+.fairy-light::before,
+.fairy-light::after {
+  content: "";
+  position: absolute;
+  background: rgba(255, 238, 190, .9);
+  border-radius: 5px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.fairy-light::before {
+  width: 2px;
+  height: 17px;
+}
+
+.fairy-light::after {
+  width: 17px;
+  height: 2px;
+}
 @keyframes fairyGlow {
-  from {
+  0% {
     opacity: .65;
-    box-shadow: 0 0 4px 1px rgba(255, 218, 133, .5);
+    filter: brightness(.9);
   }
-  to {
+
+  50% {
     opacity: 1;
-    box-shadow:
-      0 0 7px 3px rgba(255, 218, 133, .9),
-      0 0 15px 5px rgba(255, 198, 87, .4);
+    filter: brightness(1.3);
+  }
+
+  100% {
+    opacity: .8;
+    filter: brightness(1.05);
   }
 }
-
 
 
 		
