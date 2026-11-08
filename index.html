@@ -1041,7 +1041,188 @@
     left: 50%;
     top: -10px;
   }
-}	
+}
+/* DIGITAL HUG SECTION */
+
+.hug-section {
+  padding: 90px 20px;
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    var(--ivory),
+    var(--beige),
+    var(--ivory)
+  );
+  overflow: hidden;
+}
+
+.hug-content {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 45px 25px;
+  background: var(--paper);
+  border: 1px solid rgba(168, 139, 94, .3);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+.hug-eyebrow {
+  display: block;
+  color: var(--gold);
+  font-family: var(--sans);
+  font-size: .72rem;
+  letter-spacing: 3px;
+  margin-bottom: 18px;
+}
+
+.hug-content h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400;
+  color: var(--espresso);
+  line-height: 1.4;
+  margin: 0 auto 15px;
+}
+
+.hug-description {
+  font-family: var(--sans);
+  color: var(--taupe);
+  font-size: .95rem;
+  line-height: 1.8;
+  margin-bottom: 25px;
+}
+
+.hug-animation {
+  font-size: 5rem;
+  margin: 20px 0 25px;
+  display: inline-block;
+  filter: drop-shadow(0 5px 8px rgba(185, 133, 123, .2));
+  transition: transform .4s ease;
+}
+.hug-animation {
+  position: relative;
+}
+
+.hug-active {
+  animation: hugSqueeze .8s ease-in-out;
+}
+
+@keyframes hugSqueeze {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.3); }
+  55% { transform: scale(.92); }
+  75% { transform: scale(1.15); }
+}
+
+.floating-heart {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  pointer-events: none;
+  font-size: 1.2rem;
+  z-index: 5;
+  animation: heartFloat 1.8s ease-out var(--heart-delay) forwards;
+}
+
+@keyframes heartFloat {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(.5);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--heart-x)), -110px) scale(1.2);
+  }
+}		
+
+.hug-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 30px;
+  border: 1px solid var(--gold);
+  border-radius: 50px;
+  background: var(--espresso);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: .95rem;
+  letter-spacing: .5px;
+  cursor: pointer;
+  transition: all .3s ease;
+  box-shadow: 0 7px 18px rgba(59, 48, 42, .15);
+}
+
+.hug-button span {
+  color: #E8B9B0;
+  font-size: 1.3rem;
+}
+
+.hug-button:hover {
+  background: var(--rose);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(185, 133, 123, .25);
+}
+
+.hug-button:active {
+  transform: scale(.96);
+}
+
+.hug-message {
+  max-width: 450px;
+  margin: 25px auto 0;
+  color: var(--espresso);
+  font-family: "Dancing Script", cursive;
+  font-size: 1.65rem;
+  line-height: 1.6;
+  animation: hugMessageIn .8s ease both;
+}
+
+.hug-footer {
+  margin-top: 35px;
+  color: var(--rose);
+  font-family: var(--hand);
+  font-size: 1.35rem;
+}
+
+@keyframes hugMessageIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  .hug-section {
+    padding: 65px 16px;
+  }
+
+  .hug-content {
+    padding: 38px 20px;
+  }
+
+  .hug-animation {
+    font-size: 4.3rem;
+  }
+
+  .hug-button {
+    padding: 14px 25px;
+  }
+
+  .hug-message {
+    font-size: 1.45rem;
+  }
+}		
   </style>
 </head>
 
@@ -1314,7 +1495,37 @@ meri haqeeqat bann jaana
         rel="noopener noreferrer"
       >Listen on Spotify ↗</a>
     </section>
+<section class="hug-section" id="digitalHug">
+  <div class="hug-content">
 
+    <span class="hug-eyebrow">A LITTLE SOMETHING FROM ME</span>
+
+    <h2>Since I can't hug you through this screen...</h2>
+
+    <p class="hug-description">
+      Here's a little something until I can hold you for real.
+    </p>
+
+    <div class="hug-animation" id="hugAnimation">
+      🫂
+    </div>
+
+    <button class="hug-button" id="hugButton" type="button">
+      <span>♡</span> Give me a hug
+    </button>
+
+    <p class="hug-message" id="hugMessage" hidden>
+      Consider yourself hugged. Tightly. And no, you can't escape this one. ❤️
+    </p>
+
+    <div class="hug-footer">
+      Sending you all my love, always.
+    </div>
+
+  </div>
+</section>
+
+	  
     <!-- =========================
          Movie gallery footer
          ========================= -->
@@ -1735,6 +1946,43 @@ memoryVideo.addEventListener("pause", () => {
 memoryVideo.addEventListener("ended", () => {
   backgroundMusic.play().catch(() => {});
 });
+// DIGITAL HUG INTERACTION
+
+const hugButton = document.getElementById("hugButton");
+const hugAnimation = document.getElementById("hugAnimation");
+const hugMessage = document.getElementById("hugMessage");
+
+if (hugButton && hugAnimation && hugMessage) {
+  hugButton.addEventListener("click", () => {
+
+    hugMessage.hidden = false;
+
+    hugAnimation.classList.remove("hug-active");
+
+    void hugAnimation.offsetWidth;
+
+    hugAnimation.classList.add("hug-active");
+
+    const hearts = ["❤️", "💕", "♡", "💗", "♥"];
+
+    for (let i = 0; i < 8; i++) {
+      const heart = document.createElement("span");
+
+      heart.className = "floating-heart";
+      heart.textContent = hearts[i % hearts.length];
+
+      heart.style.setProperty("--heart-x", `${Math.random() * 160 - 80}px`);
+      heart.style.setProperty("--heart-delay", `${Math.random() * .5}s`);
+
+      hugAnimation.appendChild(heart);
+
+      heart.addEventListener("animationend", () => {
+        heart.remove();
+      });
+    }
+
+  });
+}	  
   </script>
 </body>
 </html>
