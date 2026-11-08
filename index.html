@@ -1955,8 +1955,20 @@ const hugMessage = document.getElementById("hugMessage");
 if (hugButton && hugAnimation && hugMessage) {
   hugButton.addEventListener("click", () => {
 
-    hugMessage.hidden = false;
+    const hugMessages = [
+  "Consider yourself hugged. Tightly. And no, you can't escape this one. ❤️",
+  "A thousand miles apart, but my arms are always yours.",
+  "If I were there, I'd be holding you a little longer.",
+  "One virtual hug, redeemable for an unlimited number of real ones.",
+  "Come here, Kukii. You deserve the biggest hug today. 🫂"
+];
 
+const randomMessage = hugMessages[
+  Math.floor(Math.random() * hugMessages.length)
+];
+
+hugMessage.textContent = randomMessage;
+hugMessage.hidden = false;
     hugAnimation.classList.remove("hug-active");
 
     void hugAnimation.offsetWidth;
