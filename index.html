@@ -329,7 +329,7 @@
     .gallery-frame {
       overflow: hidden;
       border: 1px solid var(--sand);
-      padding: 1.25rem 0;
+      padding: 2.5rem 0 1.25rem;
       background: rgba(234, 225, 213, .38);
     }
 
@@ -355,6 +355,80 @@
       transform: rotate(var(--rotation));
     }
 
+/* Hanging polaroids and fairy lights */
+
+.polaroid {
+  position: relative;
+  margin-top: 24px;
+}
+
+.photo-string {
+  position: absolute;
+  width: 2px;
+  height: 25px;
+  background: #A88B5E;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.photo-clip {
+  position: absolute;
+  width: 13px;
+  height: 19px;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #C39A65;
+  border: 1px solid #9E784B;
+  border-radius: 3px 3px 2px 2px;
+  z-index: 4;
+  box-shadow: 0 2px 3px rgba(59, 48, 42, .2);
+}
+
+.photo-clip::after {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border: 1px solid rgba(255,255,255,.7);
+  border-radius: 50%;
+  top: 4px;
+  left: 3px;
+}
+
+.fairy-light {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: -27px;
+  right: 12%;
+  border-radius: 50%;
+  background: #FFE6A1;
+  box-shadow:
+    0 0 5px 2px rgba(255, 218, 133, .75),
+    0 0 13px 4px rgba(255, 198, 87, .35);
+  z-index: 4;
+  animation: fairyGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes fairyGlow {
+  from {
+    opacity: .65;
+    box-shadow: 0 0 4px 1px rgba(255, 218, 133, .5);
+  }
+  to {
+    opacity: 1;
+    box-shadow:
+      0 0 7px 3px rgba(255, 218, 133, .9),
+      0 0 15px 5px rgba(255, 198, 87, .4);
+  }
+}
+
+
+
+		
     .polaroid img {
       width: 100%;
       aspect-ratio: 1 / 1.08;
@@ -1307,28 +1381,44 @@ const timelineEmojis = [
       }, { once: true });
     }
 
-    function createMemoryGallery() {
-      const gallery = document.getElementById("memoryGallery");
-      const items = [...memoryImages, ...memoryImages];
+    
+function createMemoryGallery() {
+  const gallery = document.getElementById("memoryGallery");
+  const items = [...memoryImages, ...memoryImages];
 
-      items.forEach(([src, caption], index) => {
-        const figure = document.createElement("figure");
-        figure.className = "polaroid";
-        figure.style.setProperty("--rotation", `${((index % 5) - 2) * 1.2}deg`);
+  items.forEach(([src, caption], index) => {
+    const figure = document.createElement("figure");
+    figure.className = "polaroid";
+    figure.style.setProperty(
+      "--rotation",
+      `${((index % 5) - 2) * 1.2}deg`
+    );
 
-        const img = document.createElement("img");
-        img.src = src;
-        img.alt = caption;
-        img.loading = index < 8 ? "eager" : "lazy";
-        safeImage(img);
+    // Hanging string
+    const string = document.createElement("div");
+    string.className = "photo-string";
 
-        const figcaption = document.createElement("figcaption");
-        figcaption.textContent = caption;
+    // Wooden clip
+    const clip = document.createElement("div");
+    clip.className = "photo-clip";
 
-        figure.append(img, figcaption);
-        gallery.appendChild(figure);
-      });
-    }
+    // Fairy light
+    const light = document.createElement("div");
+    light.className = "fairy-light";
+
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = caption;
+    img.loading = index < 8 ? "eager" : "lazy";
+    safeImage(img);
+
+    const figcaption = document.createElement("figcaption");
+    figcaption.textContent = caption;
+
+    figure.append(string, clip, light, img, figcaption);
+    gallery.appendChild(figure);
+  });
+}
 
     function createMovieGallery() {
       const gallery = document.getElementById("movieGallery");
