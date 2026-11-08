@@ -334,11 +334,27 @@
     }
 
     .marquee {
-      display: flex;
-      width: max-content;
-      animation: marquee 95s linear infinite;
-    }
+  display: flex;
+  width: max-content;
+  position: relative;
+  animation: marquee 95s linear infinite;
+}
 
+.marquee::before {
+  content: "";
+  position: absolute;
+  top: 19px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    to bottom,
+    #9B7950,
+    #C5A477
+  );
+  border-radius: 50%;
+  z-index: 2;
+}
     .marquee.reverse {
       animation-direction: reverse;
       animation-duration: 110s;
@@ -363,16 +379,9 @@
 }
 
 .photo-string {
-  position: absolute;
-  width: 2px;
-  height: 25px;
-  background: #A88B5E;
-  top: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
+  display: none;
 }
-
+		
 .photo-clip {
   position: absolute;
   width: 13px;
